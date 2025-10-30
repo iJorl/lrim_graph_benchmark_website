@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - LRIM Graph Benchmark</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html"><h2>LRIM</h2></a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#benchmark">Benchmark</a></li>
+                <li><a href="index.html#datasets">Datasets</a></li>
+                <li><a href="index.html#contact">Resources</a></li>
+                <li><a href="explore.html" class="explore-border">Explore</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Explore Hero Section -->
+    <section class="explore-hero">
+        <div class="container">
+            <div class="explore-content">
+                <h1>Explore LRIM</h1>
+                <p>Interactive exploration of the LRIM Graph Benchmark datasets and oracle predictors</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dataset Visualizer Section -->
+    <section id="data" class="explore-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Dataset Visualizer</h2>
+                <p>Explore actual spin configurations and associated energy prediction targets from the LRIM benchmark datasets</p>
+            </div>
+            
+            <!-- Dataset Controls -->
+            <div class="dataset-controls">
+                <!-- Size Selector Row -->
+                <div class="control-row">
+                    <h3>Grid Size <span class="keyboard-hint"><span class="key">↑↓</span></span></h3>
+                    <div class="size-selector">
+                        <button class="size-btn" data-size="16">16×16</button>
+                        <button class="size-btn active" data-size="32">32×32</button>
+                        <button class="size-btn" data-size="64">64×64</button>
+                        <button class="size-btn" data-size="128">128×128</button>
+                        <button class="size-btn" data-size="256">256×256</button>
+                    </div>
+                </div>
+                
+                <!-- Difficulty Selector Row -->
+                <div class="control-row">
+                    <h3>Difficulty <span class="keyboard-hint"><span class="key">Space</span></span></h3>
+                    <div class="difficulty-selector">
+                        <button class="difficulty-btn" data-difficulty="1.5">Easy (σ=1.5)</button>
+                        <button class="difficulty-btn active" data-difficulty="0.6">Hard (σ=0.6)</button>
+                    </div>
+                </div>
+                
+                <!-- Sample Navigation -->
+                <div class="control-row">
+                    <h3>Sample <span class="keyboard-hint"><span class="key">←→</span></span></h3>
+                    <div class="sample-controls">
+                        <button class="nav-btn" id="prev-sample">‹</button>
+                        <span class="sample-indicator">Sample <span id="current-sample">1</span> of 10</span>
+                        <button class="nav-btn" id="next-sample">›</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dataset Visualization -->
+            <div class="dataset-visualization">
+                <div class="viz-container">
+                    <div class="viz-panel">
+                        <h4>Spin Configuration (X)</h4>
+                        <canvas id="spin-canvas" width="500" height="500"></canvas>
+                        <div class="viz-legend">
+                            <div class="legend-item">
+                                <span class="spin-color up"></span>
+                                <span>Spin Up (+1)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="spin-color down"></span>
+                                <span>Spin Down (-1)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-panel">
+                        <h4>Delta Energy (Y)</h4>
+                        <canvas id="energy-canvas" width="500" height="500"></canvas>
+                        <div class="viz-legend">
+                            <div class="legend-item">
+                                <span class="energy-color low"></span>
+                                <span>Low Energy</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="energy-color high"></span>
+                                <span>High Energy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dataset-info">
+                    <h4 id="dataset-title">32×32 Hard (σ=0.6)</h4>
+                    <p>Left panel shows the input spin configuration (X), right panel shows the target delta energy values (Y) for each node in the grid.</p>
+                </div>
+            </div>
+            
+            <!-- Histogram Card -->
+            <div class="histogram-card">
+                <div class="section-header">
+                    <h3>Delta Energy Distribution</h3>
+                    <p>Histogram of delta energy values for the current sample</p>
+                </div>
+                <canvas id="histogram-canvas" width="550" height="300"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oracle Predictor Section -->
+    <section id="oracle" class="explore-section oracle-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Oracle Predictor</h2>
+            </div>
+            <div class="oracle-content">
+                <div class="oracle-description">
+                    <div class="oracle-card">
+                        <h3>Oracle Performance Overview</h3>
+                        <p>The oracle predictor is conditioned on a specific hop radius <em>k</em> and only considers spins within that distance from the target node. It computes exact energy changes within this constrained neighborhood.</p>
+                        <div class="oracle-formula">
+                            <code>ΔE = -s<sub>i</sub> ∑<sub>j: d(i,j)≤k</sub> s<sub>j</sub> J<sub>ij</sub></code>
+                        </div>                        <div id="oracle-overview-viz">
+                            <div class="loading">Loading overview data...</div>
+                        </div>
+                    </div>
+                    <div class="oracle-card">
+                        <h3>Interactive Visualiser</h3>
+                        <p>Explore actual oracle performance data across different datasets and hop radii. The visualization shows how performance improves with larger hop radii.</p>
+                        <div id="oracle-data-viz">
+                            <div class="loading">Loading oracle data...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started CTA Section -->
+    <section class="get-started-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Start using the LRIM Graph Benchmark in your research and evaluate your graph learning methods</p>
+                <a href="index.html#get-started" class="btn btn-primary btn-large">Get Started Now</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script src="lrim_dataset.js"></script>
+    <script src="dataset-viz.js"></script>
+    <script src="oracle-data.js"></script>
+    <script src="oracle-viz.js"></script>
+</body>
+</html>

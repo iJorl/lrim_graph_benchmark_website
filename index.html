@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LRIM Graph Benchmark</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#home"><h2>LRIM</h2></a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#benchmark">Benchmark</a></li>
+                <li><a href="#datasets">Datasets</a></li>
+                <li><a href="#contact">Resources</a></li>
+                <li><a href="explore.html" class="explore-border">Explore</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">LRIM Graph Benchmark</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Towards principled evaluation and exploration of long-range capabilities in graph learning.
+                </p>
+                <div class="hero-buttons">
+                    <a href="explore.html" class="btn btn-primary">Explore</a>
+                    <a href="#get-started" class="btn btn-secondary">Get Started</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <canvas id="spin-grid-canvas" width="650" height="650"></canvas>
+                <div class="grid-controls">
+                    <div class="control-hint">
+                        <span class="key-button">R</span>
+                        <span class="control-label">Reload</span>
+                    </div>
+                    <div class="control-hint">
+                        <span class="key-button">E</span>
+                        <span class="control-label" id="energy-mode-label">Energy</span>
+                    </div>
+                    <div class="control-hint">
+                        <span class="key-button wide">Space</span>
+                        <span class="control-label">Pause</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="benchmark" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Benchmark Features</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚛️</div>
+                    <h3>Physics-Grounded</h3>
+                    <p>The task is Energy prediction in the Ising-model, which is central to simulations with non-trivial system behavior.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔬</div>
+                    <h3>Provable Long-Range</h3>
+                    <p>Long, non-trivial correlations at critical temperature where far nodes impact the enrgy prediction. Local-only predictions are limited compared to oracle predictor.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎛️</div>
+                    <h3>Controllable Difficulty</h3>
+                    <p>Chaning the size and sigma of the system directly impacts task difficulty, allowing systematic evaluation and control across complexity levels.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📶</div>
+                    <h3>Continuous Feedback Signal</h3>
+                    <p>Get a continous feedback signal both during training and evaluation of your models that goes beyond "binary all or nothing".</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Datasets Section -->
+    <section id="datasets" class="datasets">
+        <div class="container">
+            <div class="section-header">
+                <h2>Available Datasets</h2>
+                <p>Diverse collection of graph datasets for comprehensive evaluation</p>
+            </div>
+            <div class="dataset-showcase">
+                <div class="dataset-main-card">
+                    <div class="dataset-card-header">
+                        <h3 id="dataset-title">LRIM-16</h3>
+                        <div class="dataset-stats">
+                            <span id="dataset-nodes">256 nodes</span>
+                            <span class="difficulty-tag" data-difficulty="1.5">Easy</span>
+                            <span class="difficulty-tag active" data-difficulty="0.6">Hard</span>
+                        </div>
+                    </div>
+                    <div class="dataset-grid-visual">
+                        <canvas id="dataset-grid-canvas" width="400" height="400"></canvas>
+                    </div>
+                    <div class="dataset-code" id="dataset-code-link">
+                        <code><span class="variable">dataset</span> = <span class="class">LRIM</span>(<span class="parameter">name</span>=<span class="string" id="dataset-name-code">'lrim_16_0.6_10k'</span>)</code>
+                    </div>
+                </div>
+
+                <div class="dataset-selector">
+                    <div class="dataset-option active" data-size="16" data-nodes="256" data-title="LRIM-16" data-name="lrim_16_0.6_10k">
+                        <div class="option-label">16×16</div>
+                        <div class="option-nodes">256</div>
+                    </div>
+                    <div class="dataset-option" data-size="32" data-nodes="1,024" data-title="LRIM-32" data-name="lrim_32_0.6_10k">
+                        <div class="option-label">32×32</div>
+                        <div class="option-nodes">1K</div>
+                    </div>
+                    <div class="dataset-option" data-size="64" data-nodes="4,096" data-title="LRIM-64" data-name="lrim_64_0.6_10k">
+                        <div class="option-label">64×64</div>
+                        <div class="option-nodes">4K</div>
+                    </div>
+                    <div class="dataset-option" data-size="128" data-nodes="16,384" data-title="LRIM-128" data-name="lrim_128_0.6_10k">
+                        <div class="option-label">128×128</div>
+                        <div class="option-nodes">16K</div>
+                    </div>
+                    <div class="dataset-option" data-size="256" data-nodes="65,536" data-title="LRIM-256" data-name="lrim_256_0.6_10k">
+                        <div class="option-label">256×256</div>
+                        <div class="option-nodes">65K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Resources</h2>
+            </div>
+            <div class="resource-grid">
+                <div class="resource-card paper-card">
+                    <div class="resource-icon">📄</div>
+                    <h3>LRIM Paper</h3>
+                    <p>Read the full LRIM Graph Benchmark paper with detailed methodology, experimental results, and long-range analysis.</p>
+                    <a href="#" class="resource-link arxiv-link" target="_blank">
+                        <span>arXiv:2024.xxxxx</span>
+                        <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="resource-card dataset-card">
+                    <div class="resource-icon">🤗</div>
+                    <h3>Datasets</h3>
+                    <p>Download the complete benchmark datasets with all size variations and difficulty levels directly on HuggingFace or use the provided PyG Dataloader.</p>
+                    <a href="https://huggingface.co/datasets/jmathys/lrim_graph_benchmark" class="resource-link huggingface-link" target="_blank">
+                        <span>HuggingFace Datasets</span>
+                        <span class="link-arrow">→</span>
+                    </a>
+                </div>
+                <div class="resource-card code-card">
+                    <div class="resource-icon">💻</div>
+                    <h3>Source Code</h3>
+                    <p>Get example code, include the dataset in your own codebase with the provided dataloader or inspect model checkpoints.</p>
+                    <a href="https://github.com/iJorl/lrim_graph_benchmark" class="resource-link github-link" target="_blank">
+                        <span>GitHub Repository</span>
+                        <span class="link-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section id="get-started" class="get-started">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get Started</h2>
+                <p>Quick setup to start using the LRIM Graph Benchmark</p>
+            </div>
+            <div class="code-example">
+                <div class="code-tabs" style="position: relative;">
+                    <button class="tab-btn" data-tab="install">Install</button>
+                    <button class="tab-btn active" data-tab="usage">Usage</button>
+                    <button class="tab-btn" data-tab="example">Example</button>
+                    <button id="copy-code-btn" onclick="copyExampleCode()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #667eea; padding: 5px; cursor: pointer; font-size: 18px; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'" title="Copy code">📋</button>
+                </div>
+                <div class="code-content">
+                    <div class="tab-panel" id="install-tab">
+                        <pre><code><span class="comment"># Clone the entire repository (includes training and examples)</span>
+<span class="command">git clone https://github.com/iJorl/lrim_graph_benchmark.git</span>
+<span class="command">cd lrim_graph_benchmark/example</span>
+<span class="command">./setup.sh</span>
+
+<span class="comment"># Or just download the dataloader</span>
+<span class="command">wget https://raw.githubusercontent.com/iJorl/lrim_graph_benchmark/main/lrim_loader.py</span></code></pre>
+                    </div>
+                    <div class="tab-panel active" id="usage-tab">
+                        <pre><code><span class="comment"># wget https://raw.githubusercontent.com/iJorl/lrim_graph_benchmark/main/lrim_loader.py</span>
+<span class="comment"># Requires PyTorch Geometric and HuggingFace</span>
+<span class="keyword">from</span> <span class="module">lrim_loader</span> <span class="keyword">import</span> <span class="class">LRIM</span>
+<span class="keyword">from</span> <span class="module">torch_geometric.loader</span> <span class="keyword">import</span> <span class="class">DataLoader</span>
+
+<span class="comment"># Load dataset</span>
+<span class="variable">dataset</span> = <span class="class">LRIM</span>(<span class="parameter">root</span>=<span class="string">'data/'</span>, <span class="parameter">name</span>=<span class="string" id="usage-dataset-name">'lrim_16_0.6_10k'</span>)
+<span class="variable">splits</span> = <span class="variable">dataset</span>.<span class="function">get_idx_split</span>()
+
+<span class="comment"># Create data loaders</span>
+<span class="variable">train_loader</span> = <span class="class">DataLoader</span>(<span class="variable">dataset</span>[<span class="variable">splits</span>[<span class="string">'train'</span>]], <span class="parameter">shuffle</span>=<span class="keyword">True</span>)
+<span class="variable">val_loader</span> = <span class="class">DataLoader</span>(<span class="variable">dataset</span>[<span class="variable">splits</span>[<span class="string">'val'</span>]])
+<span class="variable">test_loader</span> = <span class="class">DataLoader</span>(<span class="variable">dataset</span>[<span class="variable">splits</span>[<span class="string">'test'</span>]])</code></pre>
+                    </div>
+                    <div class="tab-panel" id="example-tab">
+                        <pre style="max-height: 500px; overflow-y: auto;"><code id="example-code" class="language-python">Loading example code...</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore Section -->
+    <section id="explore" class="explore-section">
+        <div class="container">
+            <div class="explore-content-home">
+                <div class="explore-text">
+                    <h2>Ready to Explore?</h2>
+                    <p>Dive deeper into interactive visualizations, live benchmarks, and detailed analysis tools.</p>
+                    <a href="explore.html" class="btn btn-primary">Launch Explorer</a>
+                </div>
+                <div class="explore-visual">
+                    <div class="explore-preview">
+                        <a href="explore.html" class="preview-link">
+                        <div class="preview-screen">
+                            <div class="preview-header">
+                                <div class="preview-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="preview-title">LRIM Explorer</span>
+                            </div>
+                            <div class="preview-content">
+                                <div class="preview-graph">
+                                    <svg width="200" height="120" viewBox="0 0 200 120">
+                                        <defs>
+                                            <linearGradient id="exploreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                                            </linearGradient>
+                                        </defs>
+                                        <!-- Grid pattern -->
+                                        <g stroke="#667eea" stroke-width="0.5" opacity="0.3">
+                                            <line x1="0" y1="20" x2="200" y2="20"/>
+                                            <line x1="0" y1="40" x2="200" y2="40"/>
+                                            <line x1="0" y1="60" x2="200" y2="60"/>
+                                            <line x1="0" y1="80" x2="200" y2="80"/>
+                                            <line x1="0" y1="100" x2="200" y2="100"/>
+                                            <line x1="40" y1="0" x2="40" y2="120"/>
+                                            <line x1="80" y1="0" x2="80" y2="120"/>
+                                            <line x1="120" y1="0" x2="120" y2="120"/>
+                                            <line x1="160" y1="0" x2="160" y2="120"/>
+                                        </g>
+                                        <!-- Sample nodes -->
+                                        <circle cx="40" cy="40" r="4" fill="url(#exploreGradient)" class="explore-node"/>
+                                        <circle cx="80" cy="60" r="4" fill="url(#exploreGradient)" class="explore-node"/>
+                                        <circle cx="120" cy="40" r="4" fill="url(#exploreGradient)" class="explore-node"/>
+                                        <circle cx="160" cy="80" r="4" fill="url(#exploreGradient)" class="explore-node"/>
+                                        <circle cx="100" cy="100" r="4" fill="url(#exploreGradient)" class="explore-node"/>
+                                    </svg>
+                                </div>
+                                <div class="preview-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Nodes</span>
+                                        <span class="stat-value">1,024</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Energy</span>
+                                        <span class="stat-value">-2.41</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
+    <script src="example-code.js"></script>
+    <script src="lrim_dataset.js"></script>
+    <script src="spin-grid.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
